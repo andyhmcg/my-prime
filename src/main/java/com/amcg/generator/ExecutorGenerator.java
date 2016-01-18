@@ -17,31 +17,37 @@ public class ExecutorGenerator  extends AbstractPrimeNumberGenerator{
     public List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest) {
 
         isRequestValid(primeNumberRequest);
-        final ExecutorService pool = Executors.newFixedThreadPool(10);
+        final ExecutorService executorService = Executors.newFixedThreadPool(10);
+        CompletionService<PrimeNumberResult> executorCompletionService= new ExecutorCompletionService<>(executorService );
 
         final List<Future<PrimeNumberResult>> results = new ArrayList<>();
         int rangeSize = (primeNumberRequest.getEnd() - primeNumberRequest.getStart()) + 1;
+
         IntStream.iterate(primeNumberRequest.getStart(), i -> i + 1)
                 .limit(rangeSize) // Limit  numbers to check
                 .forEach(i -> {
                     Callable<PrimeNumberResult> callable = new PrimeNumberCallable(i);
-                    Future<PrimeNumberResult> futureResult = pool.submit(callable);
+                    Future<PrimeNumberResult> futureResult = executorCompletionService.submit(callable);
                     results.add(futureResult);
                 });
 
-        List<Integer> primes = results.parallelStream()
+
+        // Take the next available result
+        List<Integer> primes = results.stream()
                 .map(f -> {
                     try {
-                        return f.get();
+                        return executorCompletionService.take().get();
                     }catch (Exception e) {
                         throw new RuntimeException(e);
                     }
                     })
                 .filter(PrimeNumberResult::isPrime)
                 .limit(primeNumberRequest.getLimit())
-                .map(PrimeNumberResult::getNumber).collect(Collectors.toList());
+                .map(PrimeNumberResult::getNumber)
+                .sorted()
+                .collect(Collectors.toList());
 
-        pool.shutdown();
+        executorService.shutdown();
         return primes;
 
     }

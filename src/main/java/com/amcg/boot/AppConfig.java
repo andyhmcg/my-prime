@@ -27,6 +27,7 @@ public class AppConfig {
      * Implementations of PrimeNumberGenerator. Can only use one at a time
      * @return implementation PrimeNumberGenerator
      */
+    
     //@Bean()
     public PrimeNumberGenerator getSieveOfEratosthenesGenerator(){
 
