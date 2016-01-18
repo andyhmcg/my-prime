@@ -13,7 +13,7 @@ public class PrimeServiceImpl implements PrimeService {
     PrimeNumberGenerator primeNumberGenerator;
 
     @Override
-    public List<Long> getPrimes(PrimeNumberRequest primeNumberRequest) {
+    public List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest) {
 
         return primeNumberGenerator.getPrimes(primeNumberRequest);
     }

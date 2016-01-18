@@ -42,11 +42,11 @@ public class PrimeServiceTest {
     public void testCanGetTheDefaultListOfPrimes(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 100, 25);
-        List<Long> expectedPrimes = Arrays.asList(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L, 47L, 53L, 59L, 61L, 67L, 71L, 73L, 79L, 83L, 89L, 97L);
+        List<Integer> expectedPrimes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97);
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
 
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
-        assertThat("Prime Numbers", primes, containsInAnyOrder( 2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L, 47L, 53L, 59L, 61L, 67L, 71L, 73L, 79L, 83L, 89L, 97L));
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        assertThat("Prime Numbers", primes, containsInAnyOrder( 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
     }
@@ -58,11 +58,11 @@ public class PrimeServiceTest {
     public void testCanGetTheFirstListOfPrimesUpToLimit(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 100, 10);
-        List<Long> expectedPrimes = Arrays.asList(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L);
+        List<Integer> expectedPrimes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
 
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
-        assertThat("Prime Numbers", primes, containsInAnyOrder( 2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L));
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        assertThat("Prime Numbers", primes, containsInAnyOrder( 2, 3, 5, 7, 11, 13, 17, 19, 23, 29));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
 
@@ -76,11 +76,11 @@ public class PrimeServiceTest {
     public void testCanGetTheRangeOfPrimesBetweenStartAndEndUpToLimit(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(10, 100, 10);
-        List<Long> expectedPrimes = Arrays.asList(11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L);
+        List<Integer> expectedPrimes = Arrays.asList(11, 13, 17, 19, 23, 29, 31, 37, 41, 43);
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
 
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
-        assertThat("Prime Numbers", primes, containsInAnyOrder(11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L));
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        assertThat("Prime Numbers", primes, containsInAnyOrder(11, 13, 17, 19, 23, 29, 31, 37, 41, 43));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
 
@@ -93,11 +93,11 @@ public class PrimeServiceTest {
     public void confirmThatStartandEndValuesAreInclusive(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(11, 43, 10);
-        List<Long> expectedPrimes = Arrays.asList(11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L);
+        List<Integer> expectedPrimes = Arrays.asList(11, 13, 17, 19, 23, 29, 31, 37, 41, 43);
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
 
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
-        assertThat("Prime Numbers", primes, containsInAnyOrder(11L, 13L, 17L, 19L, 23L, 29L, 31L, 37L, 41L, 43L));
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        assertThat("Prime Numbers", primes, containsInAnyOrder(11, 13, 17, 19, 23, 29, 31, 37, 41, 43));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
 
@@ -111,11 +111,11 @@ public class PrimeServiceTest {
     public void testCanGetTheFirstPrimeNumber(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 2, 1);
-        List<Long> expectedPrimes = Collections.singletonList(2L);
+        List<Integer> expectedPrimes = Collections.singletonList(2);
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
 
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
-        assertThat("Prime Numbers", primes, containsInAnyOrder(2L));
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        assertThat("Prime Numbers", primes, containsInAnyOrder(2));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
 
@@ -128,10 +128,10 @@ public class PrimeServiceTest {
     public void testCanReturnZeroPrimeNumbers(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 0, 10);
-        List<Long> expectedPrimes = Collections.emptyList();
+        List<Integer> expectedPrimes = Collections.emptyList();
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
 
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
         assertThat("Prime Numbers", primes, is(empty()));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
@@ -145,10 +145,10 @@ public class PrimeServiceTest {
     public void testCanReturnOnePrimeNumberWhenStartAndEndAreEqualAndAPrime(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(2, 2, 10);
-        List<Long> expectedPrimes = Collections.singletonList(2L);
+        List<Integer> expectedPrimes = Collections.singletonList(2);
 
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
-        List<Long> primes = primeServiceImpl.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
         assertThat("Prime Numbers", primes, containsInAnyOrder(2L));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);

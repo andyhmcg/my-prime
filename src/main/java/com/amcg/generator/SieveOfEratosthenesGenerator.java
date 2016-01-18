@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class SieveOfEratosthenesGenerator extends AbstractPrimeNumberGenerator {
 
     @Override
-    public List<Long> getPrimes(PrimeNumberRequest primeNumberRequest) {
+    public List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest) {
 
         isRequestValid(primeNumberRequest);
         Double longMax = Double.valueOf(primeNumberRequest.getEnd());
@@ -43,12 +43,12 @@ public class SieveOfEratosthenesGenerator extends AbstractPrimeNumberGenerator {
 
         }
 
-        final List<Long> allPrimes = new ArrayList<>();
+        final List<Integer> allPrimes = new ArrayList<>();
 
         // The index of unset bits is the prime number we are looking for
         for (int i = bitSet.nextClearBit(0); i < bitSet.length() + 1 ; i = bitSet.nextClearBit(i+1)) {
 
-            allPrimes.add((long) i);
+            allPrimes.add(i);
 
         }
 

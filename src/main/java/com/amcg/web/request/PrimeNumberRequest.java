@@ -10,38 +10,39 @@ import javax.validation.constraints.DecimalMin;
 @PrimeNumberRequestValid
 public class PrimeNumberRequest {
 
-    private final static String maxLongAsString = "9223372036854775807";
+    private final static String maxIntValue = "2147483647";
 
-    @DecimalMax(value = maxLongAsString)
+    @DecimalMax(value = maxIntValue)
     @DecimalMin(value = "0")
-    private long start;
-    @DecimalMax(maxLongAsString)
-    private long end;
-    @DecimalMax(maxLongAsString)
+    private int start;
+    @DecimalMax(maxIntValue)
+    @DecimalMin(value = "0")
+    private int end;
+    @DecimalMax(maxIntValue)
     @DecimalMin("1")
-    private long limit;
+    private int limit;
 
-    public void setStart(long start) {
+    public void setStart(int start) {
         this.start = start;
     }
 
-    public void setEnd(long end) {
+    public void setEnd(int end) {
         this.end = end;
     }
 
-    public void setLimit(long limit) {
+    public void setLimit(int limit) {
         this.limit = limit;
     }
 
-    public long getStart() {
+    public int getStart() {
         return start;
     }
 
-    public long getEnd() {
+    public int getEnd() {
         return end;
     }
 
-    public long getLimit() {
+    public int getLimit() {
         return limit;
     }
 
@@ -69,7 +70,7 @@ public class PrimeNumberRequest {
                 .toHashCode();
     }
 
-    public PrimeNumberRequest(long start, long end, long limit) {
+    public PrimeNumberRequest(int start, int end, int limit) {
         this.start = start;
         this.end = end;
         this.limit = limit;

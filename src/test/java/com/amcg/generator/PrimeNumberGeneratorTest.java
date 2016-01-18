@@ -2,7 +2,6 @@ package com.amcg.generator;
 
 import com.amcg.exception.InvalidRequestException;
 import com.amcg.web.request.PrimeNumberRequest;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -47,9 +46,9 @@ public class PrimeNumberGeneratorTest {
     public void testCanGetPrimeNumbersWhenLimitIsLessThanAvailablePrimes(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 100, 10);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
-        assertThat("Prime Numbers", primes, containsInAnyOrder(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L));
+        assertThat("Prime Numbers", primes, containsInAnyOrder(2, 3, 5, 7, 11, 13, 17, 19, 23, 29));
 
     }
 
@@ -60,9 +59,9 @@ public class PrimeNumberGeneratorTest {
     public void testCanGetPrimeNumbersWhenLimitIsMoreThanAvailablePrimes(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 12, 10);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
-        assertThat("Prime Numbers", primes, containsInAnyOrder(2L, 3L, 5L, 7L, 11L));
+        assertThat("Prime Numbers", primes, containsInAnyOrder(2, 3, 5, 7, 11));
 
     }
 
@@ -73,9 +72,9 @@ public class PrimeNumberGeneratorTest {
     public void testCanGetPrimeNumbersWhenRangeIsBoundedByNonPrimes(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(21, 100, 5);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
-        assertThat("Prime Numbers", primes, containsInAnyOrder(23L, 29L, 31L, 37L, 41L));
+        assertThat("Prime Numbers", primes, containsInAnyOrder(23, 29, 31, 37, 41));
 
     }
 
@@ -86,9 +85,9 @@ public class PrimeNumberGeneratorTest {
     public void testCanGetPrimeNumbersWhenRequestedRangeIsBoundedByPrimes(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(23, 41, 10);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
-        assertThat("Prime Numbers", primes, containsInAnyOrder(23L, 29L, 31L, 37L, 41L));
+        assertThat("Prime Numbers", primes, containsInAnyOrder(23, 29, 31, 37, 41));
 
     }
 
@@ -99,9 +98,9 @@ public class PrimeNumberGeneratorTest {
     public void testCanGetSinglePrimeNumberWhenStartAndEndAreEqual(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(5, 5, 10);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
-        assertThat("Prime Numbers", primes, containsInAnyOrder(5L));
+        assertThat("Prime Numbers", primes, containsInAnyOrder(5));
 
     }
 
@@ -112,7 +111,7 @@ public class PrimeNumberGeneratorTest {
     public void testCanGetZeroPrimeNumberWhenStartAndEndAreEqualButNotPrime(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(4, 4, 10);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
         assertThat("Prime Numbers", primes, is(empty()));
 
@@ -148,11 +147,10 @@ public class PrimeNumberGeneratorTest {
      * Can Handle max end value
      */
     @Test
-    @Ignore
     public void testCanHandleMaximumEndValuerThanEnd(){
 
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(Integer.MAX_VALUE - 1000, Integer.MAX_VALUE, 10);
-        List<Long> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
+        List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
         assertThat("Prime Numbers", primes, hasSize(10));
 

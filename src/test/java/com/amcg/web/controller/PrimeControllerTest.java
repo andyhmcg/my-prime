@@ -60,7 +60,7 @@ public class PrimeControllerTest {
     @Test
     public void testHappyPath(){
 
-        List<Long> primes = Arrays.asList(2L, 3L, 5L, 7L, 11L, 13L, 17L, 19L, 23L, 29L);
+        List<Integer> primes = Arrays.asList(2, 3, 5, 7, 11, 13, 17, 19, 23, 29);
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 100, 25);
 
         when(primeService.getPrimes(primeNumberRequest)).thenReturn(primes);
@@ -78,7 +78,7 @@ public class PrimeControllerTest {
     @Test
     public void testCanSupplyValueForStartRange(){
 
-        List<Long> primes = Arrays.asList(11L, 13L, 17L, 19L, 23L, 29L);
+        List<Integer> primes = Arrays.asList(11, 13, 17, 19, 23, 29);
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(10, 100, 25);
 
         when(primeService.getPrimes(primeNumberRequest)).thenReturn(primes);
@@ -96,7 +96,7 @@ public class PrimeControllerTest {
     @Test
     public void testCanSupplyValueForEndRange(){
 
-        List<Long> primes = Arrays.asList(2L, 3L, 5L, 7L);
+        List<Integer> primes = Arrays.asList(2, 3, 5, 7);
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 10, 25);
 
         when(primeService.getPrimes(primeNumberRequest)).thenReturn(primes);
@@ -114,7 +114,7 @@ public class PrimeControllerTest {
     @Test
     public void testCanSupplyValueForLimit(){
 
-        List<Long> primes = Arrays.asList(2L, 3L);
+        List<Integer> primes = Arrays.asList(2, 3);
         PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 100, 2);
 
         when(primeService.getPrimes(primeNumberRequest)).thenReturn(primes);
@@ -161,12 +161,12 @@ public class PrimeControllerTest {
      * Should throw a 400 - bad request
      */
     @Test
-    public void testStartParametersShouldBeTypeLong(){
+    public void testStartParametersShouldBeParsableAsInt(){
 
         requestSpec.get("/prime?start=A").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("start"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"A\""))
+                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: \"A\""))
                 .body("errors.value", containsInAnyOrder("A"));
     }
 
@@ -175,7 +175,7 @@ public class PrimeControllerTest {
      * Should throw a 400 - bad request
      */
     @Test
-    public void testStartParameterShouldBeGreaterThanZero(){
+    public void testStartParameterShouldBeGreaterThanMinusOne(){
 
         requestSpec.get("/prime?start=-1").prettyPeek()
                 .then().statusCode(400)
@@ -189,99 +189,99 @@ public class PrimeControllerTest {
      * Should throw a 400 - bad request
      */
     @Test
-    public void testEndParametersShouldBeTypeLong(){
+    public void testEndParametersShouldBeParseableAsInt(){
 
         requestSpec.get("/prime?end=A").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("end"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"A\""))
+                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: \"A\""))
                 .body("errors.value", containsInAnyOrder("A"));
     }
 
     /**
-     * Scenario: parameter end should be less that Long.MAX
+     * Scenario: parameter end should be less that Intege.MAX
      * Should throw a 400 - bad request
      */
     @Test
-    public void testEndParametersShouldBeLessThanLongMax(){
+    public void testEndParametersShouldBeLessThanIIntMax(){
 
-        requestSpec.get("/prime?end=9223372036854775808").prettyPeek()
+        requestSpec.get("/prime?end=2147483648").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("end"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"9223372036854775808\""))
-                .body("errors.value", containsInAnyOrder("9223372036854775808"));
+                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: \"2147483648\""))
+                .body("errors.value", containsInAnyOrder("2147483648"));
     }
 
     /**
-     * Scenario: parameter end should be greater than Long.MIN
+     * Scenario: parameter end should be greater than -1
      * Should throw a 400 - bad request
      */
     @Test
-    public void testEndParametersShouldBeGreaterThanLongMin(){
+    public void testEndParametersShouldBeGreaterThanMinusOne(){
 
-        requestSpec.get("/prime?end=-9223372036854775809").prettyPeek()
+        requestSpec.get("/prime?end=-1").prettyPeek()
                 .then().statusCode(400)
-                .body("errors.id", containsInAnyOrder("end"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"-9223372036854775809\""))
-                .body("errors.value", containsInAnyOrder("-9223372036854775809"));
+                .body("errors.id", containsInAnyOrder("end", "end"))
+                .body("errors.message", containsInAnyOrder("Not a valid prime number request", "must be greater than or equal to 0"))
+                .body("errors.value", containsInAnyOrder("-1", "-1"));
     }
 
     /**
-     * Scenario: parameter start should be greater than Long.MIN
+     * Scenario: parameter start should be greater or equal than 0
      * Should throw a 400 - bad request
      */
     @Test
-    public void testStartParametersShouldBeGreaterThanLongMin(){
+    public void testStartParametersShouldBeGreaterThanMinusOne(){
 
-        requestSpec.get("/prime?start=-9223372036854775809").prettyPeek()
+        requestSpec.get("/prime?start=-1").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("start"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"-9223372036854775809\""))
-                .body("errors.value", containsInAnyOrder("-9223372036854775809"));
+                .body("errors.message", containsInAnyOrder("must be greater than or equal to 0"))
+                .body("errors.value", containsInAnyOrder("-1"));
     }
 
     /**
-     * Scenario: parameter limit should be greater than Long.MIN
+     * Scenario: parameter limit should be greater than Integer.MIN
      * Should throw a 400 - bad request
      */
     @Test
-    public void testLimitParametersShouldBeGreaterThanLongMin(){
+    public void testLimitParametersShouldBeGreaterThan0(){
 
-        requestSpec.get("/prime?limit=-9223372036854775809").prettyPeek()
+        requestSpec.get("/prime?limit=-1").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("limit"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"-9223372036854775809\""))
-                .body("errors.value", containsInAnyOrder("-9223372036854775809"));
+                .body("errors.message", containsInAnyOrder("must be greater than or equal to 1"))
+                .body("errors.value", containsInAnyOrder("-1"));
     }
 
 
 
     /**
-     * Scenario: parameter limit  should be type long
+     * Scenario: parameter limit  should be type integer
      * Should throw a 400 - bad request
      */
     @Test
-    public void testLimitParametersShouldBeTypeLong(){
+    public void testLimitParametersShouldBeParseableAsInt(){
 
         requestSpec.get("/prime?limit=A").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("limit"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"A\""))
+                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: \"A\""))
                 .body("errors.value", containsInAnyOrder("A"));
     }
 
     /**
-     * Scenario: parameter limit should be less than Long.MAX
+     * Scenario: parameter limit should be less than Integer.MAX
      * Should throw a 400 - bad request
      */
     @Test
-    public void testLongParametersShouldBeLessThanLongMax(){
+    public void testParametersShouldBeLessThanIntMax(){
 
-        requestSpec.get("/prime?limit=9223372036854775808").prettyPeek()
+        requestSpec.get("/prime?limit=2147483648").prettyPeek()
                 .then().statusCode(400)
                 .body("errors.id", containsInAnyOrder("limit"))
-                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [java.lang.Long]; nested exception is java.lang.NumberFormatException: For input string: \"9223372036854775808\""))
-                .body("errors.value", containsInAnyOrder("9223372036854775808"));
+                .body("errors.message", containsInAnyOrder("Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: \"2147483648\""))
+                .body("errors.value", containsInAnyOrder("2147483648"));
     }
 
     /**

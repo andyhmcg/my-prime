@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PrimeNumberGenerator {
 
-    List<Long> getPrimes(PrimeNumberRequest primeNumberRequest);
+    List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest);
 
 }

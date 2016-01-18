@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface PrimeService {
 
-    List<Long> getPrimes(PrimeNumberRequest primeNumberRequest);
+    List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest);
 }

@@ -4,18 +4,18 @@ import com.amcg.web.request.PrimeNumberRequest;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.LongStream;
+import java.util.stream.IntStream;
 
 
 public class BruteForceGenerator extends AbstractPrimeNumberGenerator {
 
     @Override
-    public List<Long> getPrimes(PrimeNumberRequest primeNumberRequest) {
+    public List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest) {
 
         isRequestValid(primeNumberRequest);
         long rangeSize = (primeNumberRequest.getEnd() - primeNumberRequest.getStart()) + 1;
 
-        return LongStream.iterate(primeNumberRequest.getStart(), i -> i + 1)
+        return IntStream.iterate(primeNumberRequest.getStart(), i -> i + 1)
                 .limit(rangeSize) // Limit  numbers to check
                 .parallel()
                 .filter(this::isPrime) // remove non prime numbers
