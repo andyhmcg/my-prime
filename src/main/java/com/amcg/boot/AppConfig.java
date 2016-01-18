@@ -1,6 +1,7 @@
 package com.amcg.boot;
 
-import com.amcg.generator.BruteForceGenerator;
+import com.amcg.generator.ExecutorGenerator;
+import com.amcg.generator.PrimeNumberGenerator;
 import com.amcg.service.PrimeService;
 import com.amcg.service.PrimeServiceImpl;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -20,8 +21,8 @@ public class AppConfig {
     }
 
     @Bean
-    public BruteForceGenerator getBruteForceGenerator(){
-        return new BruteForceGenerator();
+    public PrimeNumberGenerator getBruteForceGenerator(){
+        return new ExecutorGenerator();
     }
 
 }
