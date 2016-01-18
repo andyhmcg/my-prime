@@ -23,6 +23,7 @@
     <java.version>1.8</java.version>
     <spring-mock-mvc.version>2.4.1</spring-mock-mvc.version>
     <commons-lang.version>3.4</commons-lang.version>
+    <build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -30,6 +31,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
@@ -48,6 +50,59 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>integration-test</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <version>${build-helper-maven-plugin.version}</version>
+            <executions>
+              <!-- Add a new source directory to our build -->
+              <execution>
+                <id>add-integration-test-sources</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                  <goal>add-test-source</goal>
+                </goals>
+                <configuration>
+                  <!-- Configures the source directory of our integration tests -->
+                  <sources>
+                    <source>src/integrationtests/java</source>
+                  </sources>
+                </configuration>
+              </execution>
+              <!-- Add a new resource directory to our build -->
+              <execution>
+                <id>add-integration-test-resources</id>
+                <phase>generate-test-resources</phase>
+                <goals>
+                  <goal>add-test-resource</goal>
+                </goals>
+                <configuration>
+                  <!-- Configures the resource directory of our integration tests -->
+                  <resources>
+                    <!--
+                        Placeholders that are found from the files located in the configured resource
+                        directories are replaced with the property values found from the profile
+                        specific configuration file.
+                    -->
+                    <resource>
+                      <filtering>true</filtering>
+                      <directory>src/integrationtests/resources</directory>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
