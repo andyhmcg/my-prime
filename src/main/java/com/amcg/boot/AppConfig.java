@@ -1,4 +1,4 @@
-package com.amcg.config;
+package com.amcg.boot;
 
 import com.amcg.generator.BruteForceGenerator;
 import com.amcg.service.PrimeService;

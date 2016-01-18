@@ -1,5 +1,5 @@
 package com.amcg.service;
-import com.amcg.config.AppConfig;
+import com.amcg.boot.AppConfig;
 import com.jayway.restassured.builder.RequestSpecBuilder;
 import com.jayway.restassured.http.ContentType;
 import com.jayway.restassured.specification.RequestSpecification;
