@@ -149,7 +149,7 @@ public class PrimeServiceTest {
 
         when(primeNumberGenerator.getPrimes(primeNumberRequest)).thenReturn(expectedPrimes);
         List<Integer> primes = primeServiceImpl.getPrimes(primeNumberRequest);
-        assertThat("Prime Numbers", primes, containsInAnyOrder(2L));
+        assertThat("Prime Numbers", primes, containsInAnyOrder(2));
 
         verify(primeNumberGenerator).getPrimes(primeNumberRequest);
     }
