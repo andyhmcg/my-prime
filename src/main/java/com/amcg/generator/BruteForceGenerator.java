@@ -13,7 +13,7 @@ public class BruteForceGenerator extends AbstractPrimeNumberGenerator {
     public List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest) {
 
         isRequestValid(primeNumberRequest);
-        long rangeSize = (primeNumberRequest.getEnd() - primeNumberRequest.getStart()) + 1;
+        int rangeSize = (primeNumberRequest.getEnd() - primeNumberRequest.getStart()) + 1;
 
         return IntStream.iterate(primeNumberRequest.getStart(), i -> i + 1)
                 .limit(rangeSize) // Limit  numbers to check

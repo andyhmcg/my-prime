@@ -17,9 +17,9 @@ public class SieveOfEratosthenesGenerator extends AbstractPrimeNumberGenerator {
     public List<Integer> getPrimes(PrimeNumberRequest primeNumberRequest) {
 
         isRequestValid(primeNumberRequest);
-        Double longMax = Double.valueOf(primeNumberRequest.getEnd());
+        int  maxPrimeNumber = primeNumberRequest.getEnd();
 
-        BitSet bitSet = new BitSet(longMax.intValue());
+        BitSet bitSet = new BitSet(maxPrimeNumber);
 
 
         // Set known primes less than 2
@@ -29,9 +29,9 @@ public class SieveOfEratosthenesGenerator extends AbstractPrimeNumberGenerator {
         // Set to first known prime
         int currentPrime = 2;
 
-        while (currentPrime * currentPrime <= longMax ){
+        while (currentPrime * currentPrime <= maxPrimeNumber ){
             int mark = currentPrime + currentPrime;
-            while (mark <= longMax) {
+            while (mark > 0 && mark <= maxPrimeNumber) {
                 bitSet.set(mark, true);
                 mark += currentPrime;
             }
