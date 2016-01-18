@@ -17,7 +17,7 @@ public class BruteForceGenerator extends AbstractPrimeNumberGenerator {
 
         return IntStream.iterate(primeNumberRequest.getStart(), i -> i + 1)
                 .limit(rangeSize) // Limit  numbers to check
-                .parallel()
+                .parallel()   // Calculate primes in parallel
                 .filter(this::isPrime) // remove non prime numbers
                 .limit(primeNumberRequest.getLimit()) // limit the number of primes returned
                 .boxed()

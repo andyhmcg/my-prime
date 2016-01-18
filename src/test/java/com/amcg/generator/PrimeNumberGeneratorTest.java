@@ -31,7 +31,7 @@ public class PrimeNumberGeneratorTest {
     public static Collection<Object[]> getParameters()
     {
         return Arrays.asList(new Object[][] {
-                { new BruteForceGenerator() },
+                { new SieveOfEratosthenesGenerator() },
                 { new SieveOfEratosthenesGenerator() }
         });
     }
@@ -144,12 +144,12 @@ public class PrimeNumberGeneratorTest {
     }
 
     /**
-     * Can Handle max end value
+     * Can Handle large max end
      */
     @Test
     public void testCanHandleMaximumEndValuerThanEnd(){
 
-        PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(Integer.MAX_VALUE - 1000, Integer.MAX_VALUE, 10);
+        PrimeNumberRequest primeNumberRequest = new PrimeNumberRequest(0, 100000000, 10);
         List<Integer> primes = primeNumberGenerator.getPrimes(primeNumberRequest);
 
         assertThat("Prime Numbers", primes, hasSize(10));
